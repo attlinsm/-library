@@ -16,6 +16,9 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     <x-nav-link href="{{ route('books.categories.index') }}" :active="request()->routeIs('books.categories.index')">
+                        {{ __('Categories') }}
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('books.index') }}" :active="request()->routeIs('books.index')">
                         {{ __('Books') }}
                     </x-nav-link>
                 </div>
@@ -146,6 +149,9 @@
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link href="{{ route('books.categories.index') }}" :active="request()->routeIs('books.categories.index')">
+                {{ __('Categories') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('books.index') }}" :active="request()->routeIs('books.index')">
                 {{ __('Books') }}
             </x-responsive-nav-link>
         </div>

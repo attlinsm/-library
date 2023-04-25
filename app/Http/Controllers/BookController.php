@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\BookRequest;
 use App\Models\Book;
+use App\Models\BookCategory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -15,27 +16,27 @@ class BookController extends Controller
      */
     public function index(): View
     {
-        return view('books.index');
+        return view('books.index', [
+            'books' => Book::with('BookCategory')->latest()->get(),
+        ]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): View
     {
-        //
+        return view('books.create', [
+            'categories' => BookCategory::all(),
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(BookRequest $request): RedirectResponse
+    public function store(BookRequest $request)
     {
-        $validated = $request->validated();
 
-        $request->user()->books()->create($validated);
-
-        return redirect(route('books.index'));
     }
 
     /**
