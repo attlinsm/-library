@@ -36,8 +36,12 @@ Route::middleware([
             ->name('books.categories.index');
         Route::get('/create', 'create')
             ->name('books.categories.create');
-        Route::post('/store', 'store')
-            ->name('books.categories.store');
+        Route::get('/edit/{category}', 'edit')
+            ->name('books.categories.edit');
+        Route::patch('/update/{category}', 'update')
+            ->name('books.categories.update');
+        Route::delete('/destroy/{category}', 'destroy')
+            ->name('books.categories.destroy');
     });
 
     Route::resource('books', BookController::class);

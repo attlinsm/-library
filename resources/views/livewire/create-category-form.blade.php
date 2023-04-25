@@ -1,4 +1,4 @@
-<x-form-section submit="createCategory">
+<x-form-section submit="store">
 
     <x-slot name="title">
         {{ __('New category') }}
