@@ -19,7 +19,7 @@
                         <div class="flex justify-between items-center">
                             <div>
                                 <h1 class="mt-8 text-2xl font-medium text-gray-900">
-                                    <a href="#">{{ $book->title }}</a>
+                                    <a href="{{ route('books.show', $book) }}">{{ $book->title }}</a>
                                 </h1>
 
                                 <p class="mt-6 text-gray-500 leading-relaxed">
@@ -29,7 +29,7 @@
                             </div>
 
                             <div>
-                                {{ $book->category->title }}
+                                {{ $book->category->title}}
                             </div>
                             <x-dropdown>
                                 <x-slot name="trigger">
@@ -40,13 +40,13 @@
                                     </button>
                                 </x-slot>
                                 <x-slot name="content">
-                                    <x-dropdown-link :href="route('books.categories.edit', $category)">
+                                    <x-dropdown-link :href="route('books.edit', $book)">
                                         {{ __('Edit') }}
                                     </x-dropdown-link>
-                                    <form method="POST" action="{{ route('books.categories.destroy', $category) }}">
+                                    <form method="POST" action="{{ route('books.destroy', $book) }}">
                                         @csrf
                                         @method('delete')
-                                        <x-dropdown-link :href="route('books.categories.destroy', $category)" onclick="event.preventDefault(); this.closest('form').submit();">
+                                        <x-dropdown-link :href="route('books.destroy', $book)" onclick="event.preventDefault(); this.closest('form').submit();">
                                             {{ __('Delete') }}
                                         </x-dropdown-link>
                                     </form>

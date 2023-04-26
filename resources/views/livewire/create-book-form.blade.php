@@ -30,14 +30,14 @@
             <x-input-error for="description" class="mt-2" />
         </div>
         <div class="col-span-6 sm:col-span-4">
-            <x-label for="category" value="{{ __('Category') }}" />
-            <select class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm w-full" id="category" type="text" class="mt-1 block w-full" wire:model.defer="category">
+            <x-label for="category_id" value="{{ __('Category') }}" />
+            <select class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm w-full" id="category_id" type="text" class="mt-1 block w-full" wire:model.defer="category_id">
                 <option selected="">{{ __('Choose the category') }}</option>
                 @foreach($categories as $category)
                     <option value="{{ $category->id }}">{{ $category->title }}</option>
                 @endforeach
             </select>
-            <x-input-error for="category" class="mt-2" />
+            <x-input-error for="category_id" class="mt-2" />
         </div>
         <div class="col-span-6 sm:col-span-4">
             <x-label for="rating" value="{{ __('Rating') }}" />

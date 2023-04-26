@@ -6,7 +6,6 @@ use App\Http\Requests\BookRequest;
 use App\Models\Book;
 use App\Models\BookCategory;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class BookController extends Controller
@@ -17,7 +16,7 @@ class BookController extends Controller
     public function index(): View
     {
         return view('books.index', [
-            'books' => Book::with('BookCategory')->latest()->get(),
+            'books' => Book::with('category')->latest()->get(),
         ]);
     }
 
@@ -44,30 +43,40 @@ class BookController extends Controller
      */
     public function show(Book $book)
     {
-        //
+        return view('books.show', [
+            'book' => $book,
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Book $book)
+    public function edit(Book $book): View
     {
-        //
+        return view('books.edit', [
+            'book' => $book,
+            'categories' => BookCategory::all(),
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Book $book)
+    public function update(BookRequest $request, Book $book): RedirectResponse
     {
-        //
+        $validated = $request->validated();
+        unlink(storage_path('app/public/cover/') . $book->cover);
+        $book->update($validated);
+        return redirect(route('books.index'));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Book $book)
+    public function destroy(Book $book): RedirectResponse
     {
-        //
+        unlink(storage_path('app/public/cover/') . $book->cover);
+        $book->delete();
+        return redirect(route('books.index'));
     }
 }

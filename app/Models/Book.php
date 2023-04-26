@@ -17,9 +17,11 @@ class Book extends Model
         'description',
         'rating',
         'cover',
+        'category_id',
     ];
+
     public function category(): BelongsTo
     {
-        return $this->belongsTo(BookCategory::class);
+        return $this->belongsTo(BookCategory::class, 'category_id');
     }
 }

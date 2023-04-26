@@ -26,7 +26,7 @@ class BookRequest extends FormRequest
             'slug' => ['required', 'string', 'max:64'],
             'author' => ['required', 'string', 'max:64'],
             'description' => ['required', 'string', 'max:255'],
-            'rating' => ['nullable', 'float'],
+            'rating' => ['nullable', 'integer'],
             'cover' => ['required', 'image'],
         ];
     }
