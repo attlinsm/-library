@@ -55,6 +55,7 @@
                         </div>
                     </div>
                 @endforeach
+                {{ $books->links() }}
             </div>
         </div>
     </div>

@@ -6,7 +6,9 @@ use App\Http\Requests\BookRequest;
 use App\Models\Book;
 use App\Models\BookCategory;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
+use Intervention\Image\Facades\Image;
 
 class BookController extends Controller
 {
@@ -16,7 +18,7 @@ class BookController extends Controller
     public function index(): View
     {
         return view('books.index', [
-            'books' => Book::with('category')->latest()->get(),
+            'books' => Book::with('category')->paginate(10),
         ]);
     }
 
@@ -64,8 +66,14 @@ class BookController extends Controller
      */
     public function update(BookRequest $request, Book $book): RedirectResponse
     {
-        $validated = $request->validated();
         unlink(storage_path('app/public/cover/') . $book->cover);
+
+        $validated = $request->validated();
+
+        $cover_name = Str::uuid();
+        Image::make($validated['cover'])->resize(640, 360)->save(storage_path('app/public/cover/') . $cover_name);
+        $validated['cover'] = $cover_name;
+
         $book->update($validated);
         return redirect(route('books.index'));
     }
