@@ -43,7 +43,7 @@ class BookController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Book $book)
+    public function show(Book $book): View
     {
         return view('books.show', [
             'book' => $book,
@@ -66,11 +66,13 @@ class BookController extends Controller
      */
     public function update(BookRequest $request, Book $book): RedirectResponse
     {
-        unlink(storage_path('app/public/cover/') . $book->cover);
+        if (storage_path('storage/cover/' . $book->cover)) {
+            unlink(storage_path('app/public/cover/') . $book->cover);
+        }
 
         $validated = $request->validated();
 
-        $cover_name = Str::uuid();
+        $cover_name = Str::uuid() . '.' . $validated['cover']->getClientOriginalExtension();
         Image::make($validated['cover'])->resize(640, 360)->save(storage_path('app/public/cover/') . $cover_name);
         $validated['cover'] = $cover_name;
 

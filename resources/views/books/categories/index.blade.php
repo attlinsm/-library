@@ -19,10 +19,12 @@
                         <div class="flex justify-between items-center">
                             <div>
                                 <h1 class="mt-8 text-2xl font-medium text-gray-900">
+                                    <x-label value="{{ __('Category: ') }}"/>
                                     <a href="#">{{ $category->title }}</a>
                                 </h1>
 
                                 <p class="mt-6 text-gray-500 leading-relaxed">
+                                    <x-label value="{{ __('Slug: ') }}"/>
                                     {{ $category->slug }}
                                 </p>
 

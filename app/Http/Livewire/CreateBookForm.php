@@ -37,9 +37,10 @@ class CreateBookForm extends Component
     {
         $validated = $this->validate();
 
-        $cover_name = Str::uuid();
-        Image::make($validated['cover'])->resize(640, 360);
-        $this->cover->storeAs('/public/cover', $cover_name);
+        Image::make($this->cover)->resize(640, 360);
+
+        $cover_name = Str::uuid() . '.' . $validated['cover']->getClientOriginalExtension();
+        $validated['cover']->storeAs('public/cover/', $cover_name);
         $validated['cover'] = $cover_name;
 
         $book = new Book();

@@ -18,19 +18,17 @@
                     <div class="p-6 lg:p-8 bg-white border-b border-gray-200">
                         <div class="flex justify-between items-center">
                             <div>
-                                <h1 class="mt-8 text-2xl font-medium text-gray-900">
+                                <h1 class="mt-8 font-medium text-gray-900">
                                     <a href="{{ route('books.show', $book) }}">{{ $book->title }}</a>
                                 </h1>
 
                                 <p class="mt-6 text-gray-500 leading-relaxed">
-                                    {{ $book->author }}
+                                    <x-label value="{{ __('Author: ') . $book->author }}"/>
                                 </p>
 
+                                <x-label value="{{ __('Category: ') . $book->category->title}}"/>
                             </div>
 
-                            <div>
-                                {{ $book->category->title}}
-                            </div>
                             <x-dropdown>
                                 <x-slot name="trigger">
                                     <button>
@@ -55,8 +53,10 @@
                         </div>
                     </div>
                 @endforeach
-                {{ $books->links() }}
             </div>
         </div>
+    </div>
+    <div class="flex justify-center">
+        {{ $books->links() }}
     </div>
 </x-app-layout>

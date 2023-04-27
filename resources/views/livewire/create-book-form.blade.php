@@ -46,7 +46,8 @@
         </div>
         <div class="col-span-6 sm:col-span-4">
             <x-label for="cover" value="{{ __('Cover') }}" />
-            <x-input id="cover" type="file" class="mt-1 block w-full" wire:model.defer="cover"/>
+            <x-input id="cover" type="file" class="mt-1 block w-full" wire:model="cover" id="cover"/>
+            <img src="{{ $cover ? $cover->temporaryUrl() : '#' }}" id="showCover" />
             <x-input-error for="cover" class="mt-2" />
         </div>
     </x-slot>
@@ -64,3 +65,20 @@
     </x-slot>
 
 </x-form-section>
+<script type="module">
+    document.addEventListener('livewire:load', function () {
+        Livewire.hook('component.initialized', (component) => {
+            if (component.fingerprint.name === 'create-book-form') {
+                let imageInput = document.getElementById('cover');
+                imageInput.addEventListener('change', function (e) {
+                    let reader = new FileReader();
+                    reader.onload = function (e) {
+                        let showImage = document.getElementById('showCover');
+                        showImage.setAttribute('src', e.target.result);
+                    }
+                    reader.readAsDataURL(e.target.files[0]);
+                });
+            }
+        });
+    });
+</script>

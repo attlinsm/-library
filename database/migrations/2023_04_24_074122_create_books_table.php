@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('author')->nullable();
             $table->text('description')->nullable();
             $table->integer('rating')->nullable();
-            $table->uuid('cover')->nullable();
+            $table->string('cover')->nullable();
 
             $table->timestamps();
         });
