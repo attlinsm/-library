@@ -5,7 +5,8 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Book;
 use App\Models\BookCategory;
-use App\Models\User;
+use App\Models\Role;
+use App\Models\RoleUser;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -15,10 +16,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(1)->create([
-         'name' => 'admin',
-         'email' => 'admin@domain.com',
-         'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', //password
+        RoleUser::factory(1)->create();
+
+        Role::factory(1)->create([
+            'name' => 'reader',
         ]);
 
         BookCategory::factory(4)->create();

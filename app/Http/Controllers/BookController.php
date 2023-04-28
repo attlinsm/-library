@@ -6,6 +6,7 @@ use App\Http\Requests\BookRequest;
 use App\Models\Book;
 use App\Models\BookCategory;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Intervention\Image\Facades\Image;
@@ -27,6 +28,9 @@ class BookController extends Controller
      */
     public function create(): View
     {
+        if (! Gate::allows('create-book') ) {
+            abort(403);
+        }
         return view('books.create', [
             'categories' => BookCategory::all(),
         ]);
@@ -55,6 +59,10 @@ class BookController extends Controller
      */
     public function edit(Book $book): View
     {
+        if (! Gate::allows('update-book', $book) ) {
+            abort(403);
+        }
+
         return view('books.edit', [
             'book' => $book,
             'categories' => BookCategory::all(),
@@ -66,6 +74,10 @@ class BookController extends Controller
      */
     public function update(BookRequest $request, Book $book): RedirectResponse
     {
+        if (! Gate::allows('update-book', $book) ) {
+            abort(403);
+        }
+
         if (storage_path('storage/cover/' . $book->cover)) {
             unlink(storage_path('app/public/cover/') . $book->cover);
         }
@@ -85,6 +97,10 @@ class BookController extends Controller
      */
     public function destroy(Book $book): RedirectResponse
     {
+        if (! Gate::allows('delete-book', $book) ) {
+            abort(403);
+        }
+
         unlink(storage_path('app/public/cover/') . $book->cover);
         $book->delete();
         return redirect(route('books.index'));

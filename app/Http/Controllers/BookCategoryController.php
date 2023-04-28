@@ -7,6 +7,7 @@ use App\Models\Book;
 use App\Models\BookCategory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
 class BookCategoryController extends Controller
@@ -26,6 +27,10 @@ class BookCategoryController extends Controller
      */
     public function create(): View
     {
+        if (! Gate::allows('create-category') ) {
+            abort(403);
+        }
+
         return view('books.categories.create');
     }
 
@@ -50,6 +55,10 @@ class BookCategoryController extends Controller
      */
     public function edit(BookCategory $category): View
     {
+        if (! Gate::allows('update-category', $category) ) {
+            abort(403);
+        }
+
         return view('books.categories.edit', [
             'category' => $category,
         ]);
@@ -60,6 +69,10 @@ class BookCategoryController extends Controller
      */
     public function update(BookCategoryRequest $request, BookCategory $category)
     {
+        if (! Gate::allows('update-category' , $category) ) {
+            abort(403);
+        }
+
         $validated = $request->validated();
         $category->update($validated);
         return redirect(route('books.categories.index'));
@@ -70,6 +83,10 @@ class BookCategoryController extends Controller
      */
     public function destroy(BookCategory $category)
     {
+        if (! Gate::allows('delete-category', $category) ) {
+            abort(403);
+        }
+
         $category->delete();
         return redirect(route('books.categories.index'));
     }

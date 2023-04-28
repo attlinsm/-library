@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -58,4 +60,24 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function roles(): HasMany
+    {
+        return $this->hasMany(RoleUser::class);
+    }
+
+    public function role(string $name)
+    {
+        return $this->roles()->whereHas('role', function (Builder $query) use ($name) {
+            $query->where('name', $name);
+        })->first();
+    }
+
+    public function hasRole($roles)
+    {
+        $roles = array_map(fn ($item) => mb_strtoupper($item), is_array($roles) ? $roles : func_get_args());
+        return $this->roles()->whereHas('role', function (Builder $query) use ($roles) {
+            $query->whereIn('name', $roles);
+        })->exists();
+    }
 }
