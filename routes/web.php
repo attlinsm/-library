@@ -54,6 +54,8 @@ Route::middleware([
             ->name('employees.index');
         Route::get('/create', 'create')
             ->name('employees.create');
+        Route::post('/store', 'store')
+            ->name('employees.create');
         Route::get('/edit/{employee}', 'edit')
             ->name('employees.edit');
         Route::patch('/update/{employee}', 'update')
