@@ -6,7 +6,7 @@ namespace Database\Seeders;
 use App\Models\Book;
 use App\Models\BookCategory;
 use App\Models\Role;
-use App\Models\RoleUser;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -16,11 +16,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        RoleUser::factory(1)->create();
+        Role::factory()->create([
+            'name' => 'employee',
+        ]);
 
-        Role::factory(1)->create([
+        Role::factory()->create([
             'name' => 'reader',
         ]);
+
+        User::factory()->admin()->create();
+        User::factory()->reader()->create();
 
         BookCategory::factory(4)->create();
         Book::factory(200)->create();

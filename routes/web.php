@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BookCategoryController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\EmployeeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -45,6 +46,13 @@ Route::middleware([
     });
 
     Route::resource('books', BookController::class);
+
+    Route::controller(EmployeeController::class)
+        ->group(function () {
+        Route::get('/employees', 'index')
+            ->name('employees.index');
+
+    });
 });
 
 

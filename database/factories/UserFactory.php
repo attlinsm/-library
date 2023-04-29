@@ -2,9 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\Role;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Laravel\Jetstream\Features;
 
@@ -69,4 +71,37 @@ class UserFactory extends Factory
             'ownedTeams'
         );
     }
+
+    public function admin()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'name' => 'admin',
+                'email' => 'admin@domain.com',
+                'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', //password
+            ];
+        })->afterCreating(function (User $user) {
+            $role = Role::where('name', 'employee')->first();
+            $user->roles()->create([
+                'role_id' => $role->id,
+            ]);
+        });
+    }
+
+    public function reader()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'name' => 'reader',
+                'email' => 'reader@domain.com',
+                'password' => Hash::make('password'),
+            ];
+        })->afterCreating(function (User $user) {
+            $role = Role::where('name', 'reader')->first();
+            $user->roles()->create([
+                'role_id' => $role->id,
+            ]);
+        });
+    }
+
 }
