@@ -54,27 +54,36 @@ class EmployeeController extends Controller
         return redirect(route('employees.index'));
     }
 
-    public function edit(User $user): View
+    public function edit(User $employee): View
     {
-        if (! Gate::allows('update-employee', $user) ) {
+        if (! Gate::allows('update-employee', $employee) ) {
             abort(403);
         }
 
+        return view('employees.edit', [
+            'employee' => $employee,
+        ]);
     }
 
-    public function update(EmployeeRequest $request, User $user): RedirectResponse
+    public function update(EmployeeRequest $request, User $employee): RedirectResponse
     {
-        if (! Gate::allows('update-employee', $user) ) {
+        if (! Gate::allows('update-employee', $employee) ) {
             abort(403);
         }
 
+        $validated = $request->validated();
+        $employee->update($validated);
+
+        return redirect(route('employees.index'));
     }
 
-    public function destroy(User $user): RedirectResponse
+    public function destroy(User $employee): RedirectResponse
     {
-        if (! Gate::allows('delete-employee', $user) ) {
+        if (! Gate::allows('delete-employee', $employee) ) {
             abort(403);
         }
 
+        $employee->delete();
+        return redirect(route('employees.index'));
     }
 }

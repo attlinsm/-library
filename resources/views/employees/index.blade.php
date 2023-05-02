@@ -15,8 +15,8 @@
 
                 <div class="mt-5 md:mt-0 md:col-span-2">
                     <div class="px-4 py-5 bg-white sm:p-6 shadow sm:rounded-md">
-                        <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-                            <table class="min-w-full border divide-y divide-gray-200">
+                        <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8 text-xs overflow-auto">
+                            <table class="border divide-y divide-gray-200">
                                 <thead>
                                 <tr>
                                     <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase bg-gray-50">{{ __('№') }}</th>
@@ -26,9 +26,9 @@
                                     <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase bg-gray-50">{{ __('Action') }}</th>
                                 </tr>
                                 </thead>
-                                <tbody class="bg-white divide-y divide-gray-200 relative">
-                                <tr>
-                                    @foreach($employees as $id => $employee)
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                @foreach($employees as $id => $employee)
+                                    <tr>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $id + 1 }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $employee->name }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $employee->email }}</td>
@@ -56,12 +56,15 @@
                                                 </x-slot>
                                             </x-dropdown>
                                         </td>
-                                    @endforeach
-                                </tr>
+                                    </tr>
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>
                     </div>
+                    <x-button class="mt-5">
+                        <a href="{{ route('employees.create') }}">{{ __('Create new') }}</a>
+                    </x-button>
                 </div>
             </div>
         </div>
